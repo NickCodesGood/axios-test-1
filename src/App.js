@@ -8,17 +8,46 @@ function App() {
 
 const[coolImg, setCoolImg] = useState("a cool image");
 const[cat, setCat] = useState([]);
-
+const[arr, setArr] = useState([])
 
 useEffect(()=>{
 
 
+
+
+
+
+// axios(arg1).then((response)=>{
+
+// console.log(response.data)
+// setCoolImg(response.data[0].urls.regular)
+
+// console.log(cat.data)
+// }).catch(error=>{
+//   console.log(error)
+// })
+
 axios(arg2).then((response)=>{
 
-console.log("dummy JSON", response.data)
+// console.log(response.data)
 setCat(response.data)
 
-console.log(cat.data)
+}).catch(error=>{
+  console.log(error)
+})
+// ----------------------------- //
+
+axios(arg3).then((response)=>{
+
+console.log(response.data)
+
+//enhanced for loop 
+for(let products of response.data){ // instead of i=0; i<arr.length; i++
+  // products = response.data[i]
+console.log(products)
+
+}
+
 }).catch(error=>{
   console.log(error)
 })
@@ -29,6 +58,43 @@ console.log(cat.data)
 },[])
 
 
+let optionData = () =>{
+
+
+
+return (
+<ul>
+  {cat.map((obj)=>{
+
+
+    return(
+      <li value={obj}> {obj}</li>
+      )
+
+  })
+}
+</ul>
+)
+
+
+
+}
+
+
+
+
+
+
+
+
+let arg3 = {
+
+  method: 'GET',
+  url: "https://dummyjson.com/products?limit=100",
+  
+
+}
+
 let arg2 = {
 
   method: 'GET',
@@ -38,7 +104,7 @@ let arg2 = {
 
 
 
-let axiosArg = {
+let arg1 = {
 
   method: 'GET',
   url: "https://api.unsplash.com/photos/",
@@ -52,16 +118,38 @@ let axiosArg = {
 
 
 
+
+let getLinks = () =>{
+
+return(
+cat.map((item)=>{  
+
+
+  
+  return (
+  <p><a href={`https://google.com/${cat}`}>{item.replace("-"," ").toUpperCase()}</a></p>
+  )
+
+    
+
+})
+)
+
+
+
+}
+
+
+
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={coolImg} className="App-logo" alt="logo" />
 
-        <a href='https://google.com'> <p>{cat[0]}</p> </a>
-        <p>{cat[1]}</p>
-        <p>{cat[2]}</p>
-        <p>{cat[3]}</p>
-
+        {getLinks()}
+        {optionData()}
+        
         
         <p>
           Edit <code>src/App.js</code> and save to reload.
